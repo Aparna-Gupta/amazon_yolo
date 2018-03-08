@@ -4,6 +4,9 @@
 
 
 from amazon.api import AmazonAPI
+from bs4 import BeautifulSoup
+# Needs lxml parser as dependency for BeautifulSoup
+
 
 def authentication ( ) :
     amazon_key = "AKIAIJT73X7ECP7STIRQ"
@@ -18,9 +21,15 @@ def util_print_products ( products ) :
 
 def product_api ( amazon_obj, item_id  ):
     product = amazon_obj.lookup(ItemId= item_id)
-    print ( "Title ", product.title )
-    print ( "Description in html \n", product.editorial_reviews )
-    print ( "sales rank ", product.sales_rank )
+    if len ( product.editorial_reviews ) < 0 :
+        print ( "Error: No editorial review" )
+        return None
+    soup = BeautifulSoup(product.editorial_reviews[0], "lxml")
+    # print ( "Title ", product.title )
+    # print ( "Description in html \n", soup.get_text())
+    # print ( "sales rank ", product.sales_rank )
+
+    return ( soup.get_text(), product.sales_rank )
 
 
 def lookup_api ( amazon_obj, search_term ) :
@@ -34,6 +43,7 @@ def similarity_lookup ( amazon_obj, products_ids ) :
 
 if __name__ == '__main__' :
     amazon_obj = authentication(  )
-    #product_api ( amazon_obj, item_id = 'B00EOE0WKQ' )
+    print (product_api ( amazon_obj, item_id = 'B00K7VZ138' ))
     #lookup_api ( amazon_obj, "toothbrush"  )
-    similarity_lookup ( amazon_obj, 'B00K7VZ138' )
+    #similarity_lookup ( amazon_obj, 'B00K7VZ138' )
+    
