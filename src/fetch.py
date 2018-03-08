@@ -32,7 +32,7 @@ def iter_retrive_data ( amazon_obj, asin_product_dict ) :
 
 def get_data ( amazon_obj, product_id ) :
     data = product_api ( amazon_obj, item_id = product_id )
-    if data is None or data is ASIN_ERROR:   # TODO do something with ASIN not found
+    if data is None or data is ASIN_ERROR: 
         print ( "Error : No product description" )
         return data
     #description, rank = data
