@@ -2,11 +2,14 @@
 
 # @author pratikone 
 
-
-from amazon.api import AmazonAPI
+from pprint import pprint
+import time
+from amazon.api import AmazonAPI, AsinNotFound
 from bs4 import BeautifulSoup
 # Needs lxml parser as dependency for BeautifulSoup
 
+
+ASIN_ERROR = "Not found ASIN"
 
 def authentication ( ) :
     amazon_key = "AKIAIJT73X7ECP7STIRQ"
@@ -19,11 +22,21 @@ def util_print_products ( products ) :
     for i, product in enumerate(products):
         print ("{0}. '{1} {2}'".format(i, product.asin, product.title) )
 
+def util_delay ( duration ) :
+    time.sleep ( duration )  #seconds
+
+
 def product_api ( amazon_obj, item_id  ):
-    product = amazon_obj.lookup(ItemId= item_id)
-    if len ( product.editorial_reviews ) < 0 :
+    # print ("="*80)
+    product = None
+    try :
+        product = amazon_obj.lookup(ItemId= item_id)
+    except AsinNotFound as e :
+        return ASIN_ERROR
+    if len ( product.editorial_reviews ) < 1 :
         print ( "Error: No editorial review" )
         return None
+    # pprint ( product.editorial_reviews[0] )
     soup = BeautifulSoup(product.editorial_reviews[0], "lxml")
     # print ( "Title ", product.title )
     # print ( "Description in html \n", soup.get_text())
