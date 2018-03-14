@@ -8,7 +8,7 @@ from amazon.api import AmazonAPI, AsinNotFound
 from bs4 import BeautifulSoup
 # Needs lxml parser as dependency for BeautifulSoup
 
-
+BIG_DELAY = 5
 ASIN_ERROR = "Not found ASIN"
 
 def authentication ( ) :
@@ -29,10 +29,16 @@ def util_delay ( duration ) :
 def product_api ( amazon_obj, item_id  ):
     # print ("="*80)
     product = None
+    
     try :
         product = amazon_obj.lookup(ItemId= item_id)
     except AsinNotFound as e :
         return ASIN_ERROR
+    except Exception as e :
+        print (" Sleeping due to ", e)
+        time.sleep ( BIG_DELAY  )
+        return product_api ( amazon_obj, item_id  )
+
     if len ( product.editorial_reviews ) < 1 :
         print ( "Error: No editorial review" )
         return None
