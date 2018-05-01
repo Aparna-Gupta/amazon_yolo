@@ -3,7 +3,7 @@
 #### Abstract
 Millions of users buy regular household items from the Amazon Marketplace every day. Most of these products are not much different from their competitors in terms of brand, pricing or specifications. Various product factors influence a user to choose one product among many similar products, product description and reviews being the two most prominent factors. We want to find out how much these two factors influence a user’s decision in choosing a product over its competitors.
 
-Report (Work-In-Progress) : ![alt text](https://github.com/pratikone/amazon_yolo/blob/master/Report.pdf "Report")
+Report (Work-In-Progress) : [Report.pdf](https://github.com/pratikone/amazon_yolo/blob/master/Report.pdf)
 
 #### Dataset 
 
